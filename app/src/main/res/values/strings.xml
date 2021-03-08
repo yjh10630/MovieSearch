@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MovieSearch</string>
+    <string name="userInputHint">영화 키워드를 입력하세요.</string>
 </resources>
