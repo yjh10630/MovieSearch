@@ -1,11 +1,12 @@
 package com.jihun.moviesearch
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.jihun.moviesearch.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity: BaseActivity<ActivityMainBinding>() {
+
+    override fun getViewBinding(): ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
+    override fun onCreatedBindingWithSetContentView(savedInstanceState: Bundle?) {
+
     }
 }
