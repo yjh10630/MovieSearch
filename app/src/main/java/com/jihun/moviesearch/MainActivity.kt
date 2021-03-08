@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jihun.moviesearch.MainViewModel.*
 import com.jihun.moviesearch.MainViewModel.ResponseType.FAIL
 import com.jihun.moviesearch.MainViewModel.ResponseType.UPDATE
+import com.jihun.moviesearch.MainViewModel.ViewType.*
 import com.jihun.moviesearch.databinding.ActivityMainBinding
 import com.jihun.moviesearch.ui.MainListAdapter
 import com.jihun.moviesearch.utils.toPx
@@ -28,21 +31,27 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
     }
 
     private fun initEditText() {
-        binding.userInputEditText.apply {
-            setOnKeyListener { _, keyCode, event ->
-                if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    //TODO 엔터를 눌렀을 때 - 키워드 검색 API 호출
-                    hideKeyboard()
-                    return@setOnKeyListener true
-                }
-                return@setOnKeyListener false
+        binding.userInputEditText.setOnKeyListener { _, keyCode, event ->
+            if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                mainViewModel.requestMovieData(binding.userInputEditText.text.toString())  // Initial keyword
+                hideKeyboard()
+                return@setOnKeyListener true
             }
+            return@setOnKeyListener false
         }
     }
 
     private fun initRecyclerView() {
         binding.mainList.apply {
-            layoutManager = GridLayoutManager(this@MainActivity, 2)
+            layoutManager = GridLayoutManager(this@MainActivity, 2).also {
+                it.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+                    override fun getSpanSize(position: Int): Int {
+                        val emptyView = (adapter as? MainListAdapter)?.items?.firstOrNull { it.viewType == EMPTY_VIEW_TYPE }
+                        return if (emptyView != null) 2
+                        else 1
+                    }
+                }
+            }
             adapter = MainListAdapter()
             if (itemDecorationCount == 0)
                 addItemDecoration(object : RecyclerView.ItemDecoration() {
@@ -80,14 +89,15 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
 
     private fun initViewModel() {
         mainViewModel.apply {
-            requestMovieData("고백")  // Initial keyword
+            requestMovieData("아이언맨")  // Initial keyword
             mainLiveData.observe(this@MainActivity, Observer {
                 when (it.response) {
                     UPDATE -> {
-                        //TODO RecyclerView Update
+                        (binding.mainList.adapter as? MainListAdapter)?.items = it.data
                     }
                     FAIL -> {
                         //TODO Fail Alert
+                        Toast.makeText(this@MainActivity, "실피요...", Toast.LENGTH_SHORT).show()
                     }
                 }
             })
