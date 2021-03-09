@@ -16,6 +16,7 @@ class MainViewModel: ViewModel() {
     val mainLiveData: MutableLiveData<MainLiveDataResponse> = MutableLiveData()
 
     fun requestMovieData(keyword: String?) {
+        compositeDisposable.clear()
         compositeDisposable.add(
             RetrofitClient
                 .getInstance()

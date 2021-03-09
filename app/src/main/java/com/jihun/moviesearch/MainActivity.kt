@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
@@ -23,6 +24,9 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
 
     override fun getViewBinding(): ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
     override fun onCreatedBindingWithSetContentView(savedInstanceState: Bundle?) {
+
+        binding.progressBar.setOnTouchListener { v, event -> true }    // 프로그레스바 터치 먹기
+
         initEditText()
         initRecyclerView()
         initViewModel()
@@ -31,7 +35,8 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
     private fun initEditText() {
         binding.userInputEditText.setOnKeyListener { _, keyCode, event ->
             if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                mainViewModel.requestMovieData(binding.userInputEditText.text.toString())  // Initial keyword
+                mainViewModel.requestMovieData(binding.userInputEditText.text.toString())
+                binding.progressBar isShow true
                 hideKeyboard()
                 return@setOnKeyListener true
             }
@@ -89,6 +94,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
         mainViewModel.apply {
             requestMovieData("아이언맨")  // Initial keyword
             mainLiveData.observe(this@MainActivity, Observer {
+                binding.progressBar isShow false
                 when (it.response) {
                     UPDATE -> {
                         (binding.mainList.adapter as? MainListAdapter)?.items = it.data
@@ -110,5 +116,9 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
             mInputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
             it.clearFocus()
         }
+    }
+
+    private infix fun RelativeLayout?.isShow(isShow: Boolean) {
+        this?.visibility = if(isShow) View.VISIBLE else View.GONE
     }
 }

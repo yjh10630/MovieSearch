@@ -43,4 +43,17 @@
         app:layout_constraintTop_toBottomOf="@id/userInputContainer"
         tools:listitem="@layout/view_movie_item"/>
 
+    <RelativeLayout
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#4D323232"
+        app:layout_constraintTop_toTopOf="@id/mainList"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
