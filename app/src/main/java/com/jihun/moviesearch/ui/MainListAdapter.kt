@@ -3,14 +3,14 @@ package com.jihun.moviesearch.ui
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.jihun.moviesearch.MainViewModel
-import com.jihun.moviesearch.MainViewModel.ViewType.*
+import com.jihun.moviesearch.data.MainDataSet
 import com.jihun.moviesearch.data.MovieData
+import com.jihun.moviesearch.data.ViewType.*
 import com.jihun.moviesearch.utils.notifyRecyclerView
 
 class MainListAdapter: RecyclerView.Adapter<BaseViewHolder<ViewBinding>>() {
 
-    var items: MutableList<MainViewModel.MainDataSet>? = null
+    var items: MutableList<MainDataSet>? = null
         set(value) {
             value?.let {
                 notifyRecyclerView(

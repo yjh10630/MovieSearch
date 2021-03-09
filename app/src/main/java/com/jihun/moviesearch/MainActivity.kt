@@ -10,10 +10,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jihun.moviesearch.MainViewModel.*
-import com.jihun.moviesearch.MainViewModel.ResponseType.FAIL
-import com.jihun.moviesearch.MainViewModel.ResponseType.UPDATE
-import com.jihun.moviesearch.MainViewModel.ViewType.*
+import com.jihun.moviesearch.data.ResponseType.*
+import com.jihun.moviesearch.data.ViewType.*
 import com.jihun.moviesearch.databinding.ActivityMainBinding
 import com.jihun.moviesearch.ui.MainListAdapter
 import com.jihun.moviesearch.utils.toPx

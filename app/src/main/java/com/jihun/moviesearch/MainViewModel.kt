@@ -3,8 +3,9 @@ package com.jihun.moviesearch
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jihun.moviesearch.api.RetrofitClient
-import com.jihun.moviesearch.data.ApiMovieData
-import com.jihun.moviesearch.data.MovieData
+import com.jihun.moviesearch.data.*
+import com.jihun.moviesearch.data.ResponseType.*
+import com.jihun.moviesearch.data.ViewType.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -26,12 +27,12 @@ class MainViewModel: ViewModel() {
                 .subscribe(
                     {
                         mainLiveData.value = MainLiveDataResponse(
-                            response = ResponseType.UPDATE,
+                            response = UPDATE,
                             data = it
                         )
                     }, {
                         mainLiveData.value = MainLiveDataResponse(
-                            response = ResponseType.FAIL
+                            response = FAIL
                         )
                     }
                 )
@@ -44,7 +45,7 @@ class MainViewModel: ViewModel() {
             it.Result?.forEach { apiItem ->
                 mainData.add(
                     MainDataSet(
-                        viewType = ViewType.MOVIE_ITEM_VIEW_TYPE,
+                        viewType = MOVIE_ITEM_VIEW_TYPE,
                         data = MovieData(
                             uniqueId = apiItem.DOCID,
                             imgUrl = apiItem.getPosterImg(),
@@ -58,7 +59,7 @@ class MainViewModel: ViewModel() {
         } ?: run {
             mainData.add(
                 MainDataSet(
-                    viewType = ViewType.EMPTY_VIEW_TYPE
+                    viewType = EMPTY_VIEW_TYPE
                 )
             )
         }
@@ -68,25 +69,5 @@ class MainViewModel: ViewModel() {
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.clear()
-    }
-
-    data class MainLiveDataResponse(
-        var response: ResponseType = ResponseType.FAIL,
-        var data: MutableList<MainDataSet>? = null,
-    )
-
-    data class MainDataSet(
-        var data: Any? = null,
-        var viewType: ViewType = ViewType.EMPTY_VIEW_TYPE
-    )
-
-    enum class ResponseType {
-        UPDATE,
-        FAIL
-    }
-
-    enum class ViewType {
-        EMPTY_VIEW_TYPE,
-        MOVIE_ITEM_VIEW_TYPE
     }
 }
