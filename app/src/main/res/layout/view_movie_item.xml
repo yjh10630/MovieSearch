@@ -18,8 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:background="@color/black"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/purple_200"/>
 
         <com.jihun.moviesearch.ui.CharacterWrapTextView
             android:id="@+id/tvTitle"

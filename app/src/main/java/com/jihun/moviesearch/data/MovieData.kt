@@ -3,6 +3,9 @@ package com.jihun.moviesearch.data
 import com.google.gson.annotations.SerializedName
 import com.jihun.moviesearch.utils.getDateFormat
 
+/**
+ * Model
+ */
 data class MovieData (
     var uniqueId: String? = null,
     var imgUrl: String? = null,

@@ -92,7 +92,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
 
     private fun initViewModel() {
         mainViewModel.apply {
-            requestMovieData("아이언맨")  // Initial keyword
+            requestMovieData("")  // Initial keyword
             mainLiveData.observe(this@MainActivity, Observer {
                 binding.progressBar isShow false
                 when (it.response) {
@@ -100,8 +100,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
                         (binding.mainList.adapter as? MainListAdapter)?.items = it.data
                     }
                     FAIL -> {
-                        //TODO Fail Alert
-                        Toast.makeText(this@MainActivity, "실피요...", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@MainActivity, "문제가 발생하였습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
             })
